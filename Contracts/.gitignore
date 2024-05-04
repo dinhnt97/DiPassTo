@@ -1,0 +1,15 @@
+# Coin98 EVM contract gitignore
+/.DS_Store
+/.env
+/.npmrc
+/.prettierrc
+/.vscode
+/.yarn
+/artifacts
+/cache
+/node_modules
+/package-lock.json
+/pnpm-lock.yaml
+/typechain-types
+/yarn-error.log
+/yarn.lock
