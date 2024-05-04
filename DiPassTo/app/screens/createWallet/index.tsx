@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 const CreateWallet: FC = () => {
-  return <View style={} />;
+  return <View style={styles.container} />;
 };
 
 const styles = StyleSheet.create({
