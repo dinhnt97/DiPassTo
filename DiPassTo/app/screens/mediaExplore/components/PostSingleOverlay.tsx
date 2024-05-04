@@ -7,10 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Feather from 'react-native-vector-icons/Feather';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {PostInfoType} from '../types';
 
 export default function PostSingleOverlay({
@@ -60,13 +59,15 @@ export default function PostSingleOverlay({
           </Text>
         ) : null}
       </View>
+
       <View style={styles.rightCol}>
+        <PostUserImage post={post} />
+
         <PostActions
           commentCount={commentCount}
           reactionCount={reactionCount}
           shareCount={shareCount}
         />
-        <PostUserImage post={post} />
       </View>
     </Pressable>
   );
@@ -88,10 +89,12 @@ export const PostActions = ({
           marginTop: 15,
           alignItems: 'center',
         }}>
-        <Feather name={'heart'} size={24} color={'white'} />
+        {/* <Feather name={'heart'} size={24} color={'white'} /> */}
+        <AntDesignIcon name={'hearto'} size={24} color={'white'} />
         <Text
           style={[
             {
+              marginTop: 6,
               fontSize: 14,
               lineHeight: 16,
               color: '#FFFFFF',
@@ -108,7 +111,7 @@ export const PostActions = ({
       </Pressable>
 
       <Pressable style={{marginTop: 15, alignItems: 'center'}}>
-        <FontAwesome name={'commenting-o'} size={24} color={'white'} />
+        <FontAwesome5 name={'comment-dots'} size={24} color={'white'} />
         <Text
           style={[
             {
@@ -155,13 +158,14 @@ export const PostActions = ({
 export const PostUserImage = ({post}: {post: PostInfoType}) => {
   const styles = getStyles();
   return (
-    <TouchableOpacity style={{marginTop: 20}}>
+    <TouchableOpacity>
       <View
         style={[
           styles.normalAvatarContainer,
           {
             borderWidth: 2,
             borderColor: 'white',
+            borderRadius: 999,
           },
         ]}>
         <Image
@@ -216,8 +220,8 @@ const getStyles = () => {
       overflow: 'hidden',
     },
     normalAvatarContainer: {
-      width: 50,
-      height: 50,
+      width: 45,
+      height: 45,
       borderWidth: 1,
       borderColor: '#F4F4F4',
       borderRadius: 8,
@@ -226,9 +230,9 @@ const getStyles = () => {
       overflow: 'hidden',
     },
     avatar: {
-      width: 55,
-      height: 55,
-      borderRadius: 8,
+      width: 40,
+      height: 40,
+      borderRadius: 999,
     },
     container: {
       position: 'absolute',
@@ -318,7 +322,7 @@ const getStyles = () => {
     rightCol: {
       position: 'absolute',
       right: 10,
-      bottom: 46,
+      bottom: 70,
       alignItems: 'center',
     },
   });

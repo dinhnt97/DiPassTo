@@ -7,7 +7,7 @@ const mockData: IPoolInfo[] = [
   {
     id: '1',
     imageUrl:
-      'https://img.pikbest.com/wp/202408/surprise-gift-box-in-3d-rendering-on-a-dark-background_9726738.jpg!w700wp',
+      'https://img.freepik.com/premium-photo/gift-box-cyberpunk-style-dark-background_969965-42879.jpg',
     createdBy: '0xDdf269bF44f86570beD9A7ef514620A31eB634D6',
     title:
       'Est nisi sint aute et cupidatat quis aute minim amet laboris excepteur qui minim.',
@@ -26,9 +26,19 @@ const mockData: IPoolInfo[] = [
     ticketPrice: '15',
   },
   {
-    id: '1',
+    id: '3',
     imageUrl:
       'https://img.pikbest.com/wp/202408/surprise-gift-box-in-3d-rendering-on-a-dark-background_9726738.jpg!w700wp',
+    createdBy: '0xDdf269bF44f86570beD9A7ef514620A31eB634D6',
+    title: 'cupidatat quis aute',
+    endTime: new Date(),
+    startTime: new Date(),
+    ticketPrice: '100',
+  },
+  {
+    id: '4',
+    imageUrl:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVAbhsaDo8kU_yyT1k_T1Zn_fJgtZ9um0s5jmf3ZzkMx8n_DhfD4uyoWBrj3aYVVA_niU&usqp=CAU',
     createdBy: '0xDdf269bF44f86570beD9A7ef514620A31eB634D6',
     title: 'cupidatat quis aute',
     endTime: new Date(),
@@ -55,6 +65,7 @@ export default function PoolList() {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
+    paddingVertical: 10,
     // display: 'flex',
     // rowGap: 16,
   },
