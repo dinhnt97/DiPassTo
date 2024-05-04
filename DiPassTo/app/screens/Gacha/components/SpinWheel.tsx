@@ -27,6 +27,7 @@ import {
 
 import {wheelPointResult, wheelRollBackground} from '../../../assets/images';
 import WheelItem from './WheelItem';
+import GachaServices from '../services';
 
 const SpinWheel = ({
   onShowReward,
@@ -179,6 +180,9 @@ const SpinWheel = ({
       resetAllState();
       startAnimation(1, 1 / DEFAULT_SPEED);
       await new Promise(resolve => setTimeout(resolve, 3000));
+      const services = new GachaServices();
+      const res = await services.rollWheel();
+      console.log(res);
       resultRef.current = 'B';
     } catch (error: any) {
       isNeedToStopRef.current = true;

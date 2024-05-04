@@ -1,4 +1,4 @@
-import Clipboard from '@react-native-clipboard/clipboard';
+// import Clipboard from '@react-native-clipboard/clipboard';
 import React, {FC, useContext, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -6,6 +6,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  Clipboard,
   View,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
