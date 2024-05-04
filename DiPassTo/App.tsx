@@ -5,10 +5,20 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import MainNavigator from './app/MainNavigation';
+import {AppContext, initialAccount} from './app/context';
 
 function App(): JSX.Element {
-  return <MainNavigator />;
+  const [account, setAccount] = useState(initialAccount);
+  return (
+    <AppContext.Provider
+      value={{
+        currentAccount: account,
+        setCurrentAccount: setAccount,
+      }}>
+      <MainNavigator />
+    </AppContext.Provider>
+  );
 }
 export default App;

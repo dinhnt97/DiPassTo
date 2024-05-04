@@ -7,9 +7,7 @@ export const convertBigNumberToNormal = (bigNumber: BigNumber): string => {
   return ethers.utils.formatEther(bigNumber);
 };
 
-export const web3Provider = new ethers.providers.JsonRpcProvider(
-  RPC_PROVIDER[97],
-);
+export const web3Provider = new ethers.providers.JsonRpcProvider(RPC_PROVIDER);
 
 export const getSigner = async (privateKey: string) => {
   const signer = new ethers.Wallet(privateKey, web3Provider);

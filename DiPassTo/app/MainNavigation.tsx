@@ -17,6 +17,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import {View} from 'react-native';
+import CreateWallet from './screens/createWallet';
 export type MainTabsParamList = {
   Home: undefined;
   Create: undefined;
@@ -86,7 +87,7 @@ const MainNavigator = () => {
     //handle tracking here
   };
 
-  const isLogin = true;
+  const isLogin = false;
   return (
     <NavigationContainer
       ref={ref => {
@@ -117,9 +118,10 @@ const MainNavigator = () => {
         ) : (
           <RootStack.Screen
             name={'CreateWallet'}
-            component={() => <View />}
+            component={CreateWallet}
             options={{
               ...TransitionPresets.SlideFromRightIOS,
+              headerShown: false,
             }}
           />
         )}
