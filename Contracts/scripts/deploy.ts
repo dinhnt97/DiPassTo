@@ -1,10 +1,16 @@
 import { ethers } from "hardhat";
 
 async function main() {
+  // Get signer
+  const [signer] = await ethers.getSigners();
+  console.log("Signer address:", signer.address);
   // Deploy ERC721Pool
   const Token = await ethers.getContractFactory("Token");
-  const token = await Token.deploy("ERC20", "ERC20");
-  await token.deployed();
+  // const token = await Token.deploy("ERC20", "ERC20");
+  // await token.deployed();
+  const token = await Token.attach(
+    "0xafdbaE21A4a28061A1AB2Ce7f961df38434C291e"
+  );
   console.log("Token deployed to:", token.address);
 
   // Deploy Wheel
@@ -14,7 +20,13 @@ async function main() {
   console.log("Wheel deployed to:", wheel.address);
 
   // Approve Wheel to spend ERC20
-  await token.approve(wheel.address, "2000000000000000000000");
+  await token.connect(signer).approve(wheel.address, "2000000000000000000000");
+
+  // Log approve
+  console.log(
+    "Allowance:",
+    await token.allowance(signer.address, wheel.address)
+  );
 
   // Deploy Pool
   let tx = await wheel.createPool(

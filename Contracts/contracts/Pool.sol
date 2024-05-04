@@ -180,4 +180,12 @@ contract Pool {
         }
         return false;
     }
+
+    // GETTERS
+
+    function getUserTickets(
+        address addr
+    ) public view returns (uint256[] memory) {
+        return userTickets[addr];
+    }
 }

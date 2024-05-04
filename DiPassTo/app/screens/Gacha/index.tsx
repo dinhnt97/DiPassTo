@@ -16,6 +16,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {tokenIcon, uploadSucess} from '../../assets/images';
 import {finishRoll} from '../../assets/jsons';
 import SpinWheel from './components/SpinWheel';
+import Services from './services';
 import {WIDTH_SCREEN} from './constants';
 
 const poolInfo = {
@@ -72,10 +73,28 @@ const Gacha: FC = ({}) => {
     tokenBalance,
   } = poolInfo;
 
+  const [balance, setBalance] = useState(0);
+  const [balanceTicket, setBalanceTicket] = useState(0);
+
+  const services = new Services();
+
+  const getBalance = async () => {
+    const servicesB: any = await services.getBalance();
+    const blanceTicket = await services.getPriceTicket();
+    setBalance(servicesB);
+    console.log(blanceTicket, '___balanceTicket');
+    setBalanceTicket(blanceTicket);
+  };
+
   const isDisableBuyTicket = tokenBalance === 0;
   const isDisableSpin = ticketBalance === 0;
 
   const [histories, setHistories] = useState<IHistory[]>([]);
+
+  useEffect(() => {
+    getBalance();
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * dumpHistories.length);
@@ -96,6 +115,16 @@ const Gacha: FC = ({}) => {
     console.log('onShowReward');
     toastRewardRef.current?.showReward('You got 1000 token');
   };
+
+  const onBuyTicket = async () => {
+    console.log('on buy');
+    const hash = await services.buyTicket();
+    console.log(hash, '___hashhash');
+    if (hash) {
+      toastRewardRef.current?.showReward('You got 1 ticket');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.rowCenter, styles.field, styles.spaceBetween]}>
@@ -104,11 +133,11 @@ const Gacha: FC = ({}) => {
         </Pressable>
         <View style={styles.rowCenter}>
           <Text style={styles.ticketBalance}>
-            <FontAwesome name={'ticket'} size={18} /> {ticketBalance}
+            <FontAwesome name={'ticket'} size={18} /> {balanceTicket?.length}
           </Text>
           <View style={styles.rowCenter}>
             <Image source={tokenIcon} style={styles.tokenIcon} />
-            <Text style={styles.ticketBalance}>{tokenBalance}</Text>
+            <Text style={styles.ticketBalance}>{balance}</Text>
           </View>
         </View>
       </View>
@@ -122,7 +151,8 @@ const Gacha: FC = ({}) => {
             style={[
               styles.buyTicketBtn,
               isDisableBuyTicket && styles.disableBtn,
-            ]}>
+            ]}
+            onPress={onBuyTicket}>
             <Text style={styles.buyTicketText}>Buy Ticket</Text>
           </Pressable>
         </View>

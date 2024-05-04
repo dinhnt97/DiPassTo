@@ -51,12 +51,13 @@ export const getContract = (
     args: any[],
   ) => {
     const estimatedGas = await contract.estimateGas[methodName](...args);
+    console.log('++', estimatedGas);
     const gasPrice = await web3Provider.getGasPrice();
     return contract
       .connect(new ethers.Wallet(privateKey, web3Provider))
       [methodName](...args, {value: 0, gasPrice, gasLimit: estimatedGas});
   };
-  return {readMethods, writeMethods};
+  return {contract, readMethods, writeMethods};
 };
 
 export const createNewWeb3Account = (): Wallet => {
