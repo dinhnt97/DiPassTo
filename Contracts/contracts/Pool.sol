@@ -34,6 +34,8 @@ contract Pool {
 
     IERC20 public token;
 
+    uint256 public constant INFINITY = 100;
+
     struct Reward {
         uint256 rewardRate;
         uint256 rewardValuePercent;
@@ -87,7 +89,7 @@ contract Pool {
         );
         require(block.timestamp <= endTime, "Registration is finished");
 
-        calculateTicketPrice();
+        ticketPrice = (poolAmount * ticketPriceRate) / 100;
 
         token.transferFrom(msg.sender, address(this), ticketPrice);
 
@@ -95,17 +97,20 @@ contract Pool {
 
         userTickets[msg.sender].push(count);
 
+        poolAmount = poolAmount + ticketPrice;
+
         count++;
     }
 
-    function roll(uint256 ticketId) public {
+    function roll(uint256 ticketId) public returns (uint256) {
         require(ticketActive[ticketId] == false, "Ticket is already rolled");
         require(
             ticketIsExist(ticketId, address(msg.sender)),
             "You don't have a ticket"
         );
 
-        calculateLuckyRate();
+        rolledTickets = rolledTickets + 1;
+        luckyRate = 1000 - (1000 - 5) ** rolledTickets;
 
         uint256 randomNumber = uint(
             keccak256(
@@ -113,7 +118,10 @@ contract Pool {
             )
         ) % (100000 - 1);
 
-        require(randomNumber <= luckyRate, "You are not lucky");
+        if (randomNumber > luckyRate) {
+            ticketActive[ticketId] = true;
+            return INFINITY;
+        }
 
         // Random
 
@@ -123,7 +131,8 @@ contract Pool {
             )
         ) % (10000 - 1);
 
-        for (uint256 i = 0; i < rewardRates.length; i++) {
+        uint256 i = 0;
+        while (i < rewardRates.length) {
             if (rewardRandom <= rewardRates[i] * 100) {
                 uint256 rewardValue = (poolAmount * rewardValuePercents[i]) /
                     100;
@@ -135,9 +144,12 @@ contract Pool {
                 token.transfer(initUser, (rewardValue * 5) / 100);
                 break;
             }
+            i++;
         }
 
         ticketActive[ticketId] = true;
+
+        return i;
     }
 
     function calculateLuckyRate() public {
