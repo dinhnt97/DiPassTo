@@ -21,7 +21,9 @@ contract Pool {
 
     mapping(uint256 => bool) public ticketActive; // tickets
     mapping(address => uint256) public userTickets; // user tickets
-    mapping(uint256 => Reward) public rewards; // rewards
+    // mapping(uint256 => Reward) public rewards; // rewards
+    uint256[] rewardRates;
+    uint256[] rewardValuePercents;
 
     address public initUser; // user who initialized the pool
 
@@ -41,8 +43,8 @@ contract Pool {
         uint256 _ticketPriceRate,
         uint256 _startTime,
         uint256 _endTime,
-        uint256[] memory rewardRates,
-        uint256[] memory rewardValuePercents,
+        uint256[] memory _rewardRates,
+        uint256[] memory _rewardValuePercents,
         IERC20 _token,
         address _initUser
     ) {
@@ -65,7 +67,8 @@ contract Pool {
         );
 
         for (uint256 i = 0; i < rewardRates.length; i++) {
-            rewards[i] = Reward(rewardRates[i], rewardValuePercents[i]);
+            rewardRates.push(_rewardRates[i]);
+            rewardValuePercents.push(_rewardValuePercents[i]);
         }
     }
 
@@ -110,6 +113,26 @@ contract Pool {
         require(randomNumber <= luckyRate, "You are not lucky");
 
         // Random
+
+        uint256 rewardRandom = uint(
+            keccak256(
+                abi.encodePacked(block.timestamp, msg.sender, block.number)
+            )
+        ) % (10000 - 1);
+
+        for (uint256 i = 0; i < rewardRates.length; i++) {
+            if (rewardRandom <= rewardRates[i] * 100) {
+                uint256 rewardValue = (poolAmount * rewardValuePercents[i]) /
+                    100;
+
+                // Transfer 95% of reward to user
+                token.transfer(msg.sender, (rewardValue * 95) / 100);
+
+                // Transfer 5% of reward to initUser
+                token.transfer(initUser, (rewardValue * 5) / 100);
+                break;
+            }
+        }
 
         ticketActive[ticketId] = true;
         rolledTickets++;
