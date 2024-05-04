@@ -61,7 +61,7 @@ function MainTabs() {
         ...TransitionPresets.ModalSlideFromBottomIOS,
         headerTitleAlign: 'center',
         //headerShown: false,
-        //headerShown: false,
+        headerShown: false,
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: '#7749fc',
       })}>

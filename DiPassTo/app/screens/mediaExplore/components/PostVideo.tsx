@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Dimensions, Image, StyleSheet, View} from 'react-native';
+import {Dimensions, LayoutAnimation, StyleSheet, View} from 'react-native';
 
 import {useIsFocused} from '@react-navigation/native';
 import Video from 'react-native-video';
 
-import PostSingleOverlay from './PostSingleOverlay';
 import {PostInfoType} from '../types';
 import {useIsForeground} from '../utils';
+import PostSingleOverlay from './PostSingleOverlay';
 
 const ScreenWidth = Dimensions.get('window').width;
 
@@ -27,6 +27,7 @@ export const PostSingle = ({
   const isFocusExplore = isFocussed && isForeground;
 
   useEffect(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setVideoState(state => {
       if (!isViewable) {
         return 'stop';
@@ -71,16 +72,17 @@ export const PostSingle = ({
         onHandleClick={onHandleClick}
       />
       {videoState === 'stop' ? (
-        <Image
-          source={{
-            uri: item.thumbnailUrl,
-          }}
-          style={{
-            width: ScreenWidth,
-            height: itemHeight,
-          }}
-          resizeMode={item.videoDisplayRate > 0.7 ? 'contain' : 'cover'}
-        />
+        // <Image
+        //   source={{
+        //     uri: item.thumbnailUrl,
+        //   }}
+        //   style={{
+        //     width: ScreenWidth,
+        //     height: itemHeight,
+        //   }}
+        //   resizeMode={item.videoDisplayRate > 0.7 ? 'contain' : 'cover'}
+        // />
+        <View />
       ) : (
         <Video
           ignoreSilentSwitch={'ignore'}
@@ -89,7 +91,8 @@ export const PostSingle = ({
           repeat={true}
           paused={videoState === 'pause'}
           //controls
-          poster={item.thumbnailUrl || undefined}
+          // poster={item.thumbnailUrl || undefined}
+          poster={''}
           posterResizeMode={'cover'}
           source={{
             uri: item.videoUrl,

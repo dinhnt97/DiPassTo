@@ -11,6 +11,23 @@ import {IPoolInfo} from '../../../../types';
 type Props = {
   data: IPoolInfo;
 };
+
+const listName = [
+  'Oliver Thomas',
+  'Damian Oscar',
+  'Reece Joe',
+  'Harry Jacob',
+  'Charlie William',
+];
+const listTitle = [
+  'When Did deep in forest Get So Famous?',
+  '8 Amazing deep in forest Myths Explored',
+  'Mythbusting deep in forest, The Unexpected Truth Behind deep in forest',
+  'The deep in forest Revolution is Coming',
+  'A Chat About deep in forest',
+  'Everything You Need to Know About deep in forest',
+];
+
 export default function PoolItem({data}: Props) {
   const {value: isFollow, toggle: toggleFollow} = useBoolean(
     Math.random() > 0.5,
@@ -20,6 +37,10 @@ export default function PoolItem({data}: Props) {
     // navigate();
     navigation.navigate('Gacha');
   }
+
+  const randomName = listName[Math.floor(Math.random() * listName.length)];
+  const randomTitle = listTitle[Math.floor(Math.random() * listTitle.length)];
+
   return (
     <View style={styles.shadow}>
       <View
@@ -41,10 +62,10 @@ export default function PoolItem({data}: Props) {
                 rounded
                 size={35}
                 source={{
-                  uri: 'https://ui-avatars.com/api/?name=John+Doe',
+                  uri: `https://ui-avatars.com/api/?name=${randomName} `,
                 }}
               />
-              <Text style={styles.txtName}>Lorem, ipsum dolor.</Text>
+              <Text style={styles.txtName}>{randomName}</Text>
               {!isFollow && (
                 <Button
                   title={'+ Follow'}
@@ -62,7 +83,7 @@ export default function PoolItem({data}: Props) {
             </View>
             <View style={styles.poolInfoRow}>
               <Text numberOfLines={1} style={styles.txtTitle}>
-                {data.title}
+                {randomTitle || data.title}
               </Text>
               {/* <Text numberOfLines={1} style={[styles.txtDes, styles.body12]}>
                 {data.totalMinted || 0} / {data.totalTicket || 0}
@@ -148,7 +169,7 @@ const styles = StyleSheet.create({
   },
   txtTitle: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     flex: 1,
   },
   txtDes: {

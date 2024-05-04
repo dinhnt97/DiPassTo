@@ -54,8 +54,13 @@ export default function PostSingleOverlay({
           width: '70%',
         }}>
         {post.title ? (
-          <Text style={styles.description} numberOfLines={3}>
+          <Text style={styles.displayName} numberOfLines={2}>
             {title}
+          </Text>
+        ) : null}
+        {post.content ? (
+          <Text style={styles.description} numberOfLines={1}>
+            {post.content}
           </Text>
         ) : null}
       </View>
@@ -268,7 +273,7 @@ const getStyles = () => {
     },
     displayName: {
       fontWeight: 'bold',
-      fontSize: 14,
+      fontSize: 16,
       color: '#FFFFFF',
       textShadowColor: '#00000050',
       textShadowRadius: 3,
@@ -278,7 +283,7 @@ const getStyles = () => {
       },
     },
     description: {
-      marginTop: 10,
+      marginTop: 8,
       //color: colors.text.default,
       color: '#FFFFFF',
       textShadowColor: '#00000050',
@@ -288,6 +293,7 @@ const getStyles = () => {
         width: 0.5,
       },
     },
+
     leftContainer: {
       alignItems: 'center',
     },

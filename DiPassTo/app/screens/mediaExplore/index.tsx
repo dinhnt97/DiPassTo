@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FlatList, View, ViewToken} from 'react-native';
 
-import {NestingMainTabsScreenProps} from '../../MainNavigation';
+import _ from 'lodash';
 import LottieView from 'lottie-react-native';
+import {NestingMainTabsScreenProps} from '../../MainNavigation';
+import {loading} from '../../assets/jsons';
 import {PostSingle} from './components/PostVideo';
 import {PostInfoType, postList} from './types';
-import _ from 'lodash';
 import {getRendererVideos} from './utils';
-import {loading} from '../../assets/jsons';
 
 const MediaExplore = ({navigation}: NestingMainTabsScreenProps<'Home'>) => {
   const [renderData, setRenderData] = useState<PostInfoType[]>([]);
