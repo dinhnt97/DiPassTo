@@ -83,6 +83,8 @@ contract Pool {
         );
         require(block.timestamp <= endTime, "Registration is finished");
 
+        calculateTicketPrice();
+
         token.transferFrom(msg.sender, address(this), ticketPrice);
 
         ticketActive[count] = false;
@@ -115,5 +117,9 @@ contract Pool {
 
     function calculateLuckyRate() public {
         luckyRate = 1000 - (1000 - 5) ** count; // Lucky rate * 1000
+    }
+
+    function calculateTicketPrice() public {
+        ticketPrice = (poolAmount * ticketPriceRate) / 100;
     }
 }
