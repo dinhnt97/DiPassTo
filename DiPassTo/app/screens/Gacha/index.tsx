@@ -139,22 +139,25 @@ const Gacha: FC = ({}) => {
       </View>
       <SpinWheel onShowReward={onShowReward} />
       <ToastReward ref={toastRewardRef} />
-      <View style={{padding: 16}}>
-        <Text style={styles.name}>History</Text>
-        {histories.map(history => {
-          return (
-            <View style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
-              <Text style={styles.textField}>{history.address}</Text>
-              <View style={styles.rowCenter}>
-                <Text style={[styles.textField, {marginRight: 8}]}>
-                  {history.reward}
-                </Text>
-                <Image source={tokenIcon} style={styles.tokenIcon} />
+      {histories.length > 0 && (
+        <View style={{padding: 16}}>
+          <Text style={styles.name}>History</Text>
+          {histories.map(history => {
+            return (
+              <View
+                style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
+                <Text style={styles.textField}>{history.address}</Text>
+                <View style={styles.rowCenter}>
+                  <Text style={[styles.textField, {marginRight: 8}]}>
+                    {history.reward}
+                  </Text>
+                  <Image source={tokenIcon} style={styles.tokenIcon} />
+                </View>
               </View>
-            </View>
-          );
-        })}
-      </View>
+            );
+          })}
+        </View>
+      )}
     </SafeAreaView>
   );
 };

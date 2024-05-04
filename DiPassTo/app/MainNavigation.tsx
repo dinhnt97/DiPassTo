@@ -1,5 +1,6 @@
 import React, {useContext, useRef} from 'react';
-
+import {Icon} from 'react-native-elements';
+// import Feather from 'react-native-vector-icons/';
 import {
   BottomTabNavigationProp,
   BottomTabScreenProps,
@@ -26,7 +27,8 @@ import MediaExplore from './screens/mediaExplore';
 export type MainTabsParamList = {
   Home: undefined;
   Create: undefined;
-  GameCenter: undefined;
+  Event: undefined;
+  'Game Center': undefined;
 };
 
 export type RootStackParamList = {
@@ -70,24 +72,43 @@ function MainTabs() {
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,
           tabBarHideOnKeyboard: true,
+          tabBarIcon: ({color, size}) => {
+            return <Icon name="home" size={size} color={color} />;
+          },
         }}
       />
 
       <BottomTab.Screen
-        name={'Create'}
+        name={'Event'}
         component={CreatePoolScreen}
         options={{
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,
+          tabBarIcon: ({color, size}) => {
+            return (
+              <Icon type="material" name="event" size={size} color={color} />
+            );
+          },
         }}
+
         //listeners={tabScreenListenterCheckAuth}
       />
       <BottomTab.Screen
-        name={'GameCenter'}
+        name={'Game Center'}
         component={HomeScreen}
         options={{
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,
+          tabBarIcon: ({color, size}) => {
+            return (
+              <Icon
+                type="simple-line-icon"
+                name="game-controller"
+                size={size}
+                color={color}
+              />
+            );
+          },
         }}
         //listeners={tabScreenListenterCheckAuth}
       />

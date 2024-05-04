@@ -67,9 +67,9 @@ const CreateWallet: FC = () => {
       <Text
         style={styles.textCopy}
         onPress={() => {
-          Clipboard.setString('hello world');
+          Clipboard.setString(currentAccount.nmenomic);
         }}>
-        <Feather name={'copy'} size={18} /> Copy seed phare
+        <Feather name={'copy'} size={18} /> Copy seed phrase
       </Text>
 
       <Pressable
@@ -113,10 +113,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#121212',
-    marginBottom: 8,
+    color: '#fff',
+    marginBottom: 20,
   },
   description: {
     fontSize: 16,
