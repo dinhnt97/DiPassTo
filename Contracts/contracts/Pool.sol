@@ -20,7 +20,8 @@ contract Pool {
     uint256 public rolledTickets; // number of rolled tickets
 
     mapping(uint256 => bool) public ticketActive; // tickets
-    mapping(address => uint256) public userTickets; // user tickets
+    mapping(address => uint256[]) public userTickets; // user tickets
+
     // mapping(uint256 => Reward) public rewards; // rewards
     uint256[] rewardRates;
     uint256[] rewardValuePercents;
@@ -91,16 +92,19 @@ contract Pool {
         token.transferFrom(msg.sender, address(this), ticketPrice);
 
         ticketActive[count] = false;
-        userTickets[msg.sender] = count;
+
+        userTickets[msg.sender].push(count);
 
         count++;
     }
 
     function roll(uint256 ticketId) public {
         require(block.timestamp >= endTime, "Rolling is not started yet");
-
         require(ticketActive[ticketId] == false, "Ticket is already rolled");
-        require(userTickets[msg.sender] == ticketId, "You don't have a ticket");
+        require(
+            ticketIsExist(ticketId, address(msg.sender)),
+            "You don't have a ticket"
+        );
 
         calculateLuckyRate();
 
@@ -135,14 +139,26 @@ contract Pool {
         }
 
         ticketActive[ticketId] = true;
-        rolledTickets++;
     }
 
     function calculateLuckyRate() public {
-        luckyRate = 1000 - (1000 - 5) ** count; // Lucky rate * 1000
+        rolledTickets = rolledTickets + 1;
+        luckyRate = 1000 - (1000 - 5) ** rolledTickets; // Lucky rate * 1000
     }
 
     function calculateTicketPrice() public {
         ticketPrice = (poolAmount * ticketPriceRate) / 100;
+    }
+
+    function ticketIsExist(
+        uint256 ticketId,
+        address addr
+    ) public view returns (bool) {
+        for (uint256 i = 0; i < userTickets[addr].length; i++) {
+            if (userTickets[addr][i] == ticketId) {
+                return true;
+            }
+        }
+        return false;
     }
 }
