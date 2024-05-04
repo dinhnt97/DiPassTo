@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useContext, useRef} from 'react';
 
 import {
   BottomTabNavigationProp,
@@ -18,6 +18,8 @@ import {
 } from '@react-navigation/stack';
 import {View} from 'react-native';
 import CreateWallet from './screens/createWallet';
+import {AppContext} from './context';
+import Gacha from './screens/Gacha';
 export type MainTabsParamList = {
   Home: undefined;
   Create: undefined;
@@ -87,7 +89,9 @@ const MainNavigator = () => {
     //handle tracking here
   };
 
-  const isLogin = false;
+  const {currentAccount} = useContext(AppContext);
+
+  const isLogin = currentAccount.isSaved;
   return (
     <NavigationContainer
       ref={ref => {
@@ -96,7 +100,7 @@ const MainNavigator = () => {
         }
       }}
       onStateChange={onStateChange}>
-      <RootStack.Navigator>
+      <RootStack.Navigator initialRouteName="Gacha">
         {isLogin ? (
           <>
             <RootStack.Screen
@@ -109,7 +113,7 @@ const MainNavigator = () => {
             />
             <RootStack.Screen
               name={'Gacha'}
-              component={() => <View />}
+              component={Gacha}
               options={{
                 ...TransitionPresets.SlideFromRightIOS,
               }}
