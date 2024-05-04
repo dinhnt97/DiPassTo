@@ -1,16 +1,16 @@
+import Clipboard from '@react-native-clipboard/clipboard';
 import React, {FC, useContext, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
   Pressable,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
-import {createNewWeb3Account} from '../../components/walletCore';
-import {Text} from 'react-native';
-import {AppContext} from '../../context';
 import Feather from 'react-native-vector-icons/Feather';
-import Clipboard from '@react-native-clipboard/clipboard';
+import {createNewWeb3Account} from '../../components/walletCore';
+import {AppContext} from '../../context';
 
 const SEED_PHARE_WIDTH = (Dimensions.get('screen').width - 32 - 48) / 3;
 const CreateWallet: FC = () => {
@@ -69,8 +69,7 @@ const CreateWallet: FC = () => {
         onPress={() => {
           Clipboard.setString('hello world');
         }}>
-        <Feather name={'copy'} size={18} />
-        Copy seed phare
+        <Feather name={'copy'} size={18} /> Copy seed phare
       </Text>
 
       <Pressable
@@ -111,6 +110,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     color: 'white',
+    fontSize: 16,
   },
   title: {
     fontSize: 20,

@@ -25,8 +25,8 @@ import {
   WIDTH_SCREEN,
 } from '../constants';
 
-import WheelItem from './WheelItem';
 import {wheelPointResult, wheelRollBackground} from '../../../assets/images';
+import WheelItem from './WheelItem';
 
 const SpinWheel = ({
   onShowReward,
@@ -241,12 +241,12 @@ const styles = StyleSheet.create({
     width: WIDTH_SCREEN / 15,
     height: ((WIDTH_SCREEN / 15) * 19) / 13,
     position: 'absolute',
-    bottom: ((WIDTH_SCREEN / 35) * 19) / 13,
+    bottom: ((WIDTH_SCREEN / 35) * 19) / 13 + 10,
   },
   container: {alignItems: 'center'},
   wheelBackground: {
     width: WIDTH_SCREEN,
-    height: WIDTH_SCREEN * (170 / 375),
+    height: WIDTH_SCREEN * (200 / 375),
     justifyContent: 'center',
     alignItems: 'center',
   },
