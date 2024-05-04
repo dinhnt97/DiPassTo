@@ -1,3 +1,5 @@
+import {useNavigation} from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 import React, {
   FC,
   Ref,
@@ -8,15 +10,13 @@ import React, {
   useState,
 } from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import SpinWheel from './components/SpinWheel';
-import Feather from 'react-native-vector-icons/Feather';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {tokenIcon, uploadSucess} from '../../assets/images';
-import {WIDTH_SCREEN} from './constants';
-import LottieView from 'lottie-react-native';
 import {finishRoll} from '../../assets/jsons';
+import SpinWheel from './components/SpinWheel';
+import {WIDTH_SCREEN} from './constants';
 
 const poolInfo = {
   totalPoolPrize: 1000,
@@ -100,7 +100,7 @@ const Gacha: FC = ({}) => {
     <SafeAreaView style={styles.container}>
       <View style={[styles.rowCenter, styles.field, styles.spaceBetween]}>
         <Pressable style={styles.back} onPress={goBack}>
-          <Feather name={'chevron-left'} size={28} />
+          <Feather name={'chevron-left'} size={28} color="#fff" />
         </Pressable>
         <View style={styles.rowCenter}>
           <Text style={styles.ticketBalance}>
@@ -189,13 +189,14 @@ const ToastReward = forwardRef(
           width: '100%',
           height: '100%',
           alignItems: 'center',
-          zIndex: 0,
+          zIndex: 1,
+          top: '10%',
         }}
         onPress={hideToast}>
         <View
           style={{
             width: WIDTH_SCREEN - 64,
-            backgroundColor: 'white',
+            backgroundColor: '#121212',
             alignItems: 'center',
             borderRadius: 16,
             position: 'absolute',
@@ -205,8 +206,9 @@ const ToastReward = forwardRef(
               height: 3,
             },
             shadowRadius: 6,
-            shadowOpacity: 0.4,
-            elevation: 4,
+            shadowOpacity: 0.1,
+            elevation: 1,
+            shadowColor: '#fff',
           }}>
           <LottieView
             style={{
@@ -229,7 +231,17 @@ const ToastReward = forwardRef(
             }}
             source={uploadSucess}
           />
-          <Text style={styles.textField}>Congratulation</Text>
+          <Text
+            style={[
+              styles.textField,
+              {
+                fontSize: 20,
+                fontWeight: 600,
+                marginBottom: 8,
+              },
+            ]}>
+            Congratulation
+          </Text>
           <Text
             style={[
               {
@@ -246,7 +258,7 @@ const ToastReward = forwardRef(
               width: '100%',
               paddingVertical: 16,
               borderTopWidth: 0.5,
-              borderColor: '#6631FF',
+              borderColor: '#434343',
               height: 50,
               justifyContent: 'center',
               alignItems: 'center',
@@ -261,13 +273,13 @@ const ToastReward = forwardRef(
 );
 
 const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: 'white'},
-  name: {fontSize: 20, fontWeight: 'bold', color: '#121212', marginBottom: 8},
+  container: {flex: 1},
+  name: {fontSize: 20, fontWeight: 'bold', color: '#fff', marginBottom: 8},
   rowCenter: {flexDirection: 'row', alignItems: 'center'},
   image: {width: 40, height: 40, marginRight: 16},
   field: {marginBottom: 8, width: '100%'},
   spaceBetween: {justifyContent: 'space-between'},
-  ticketBalance: {fontSize: 18, color: '#121212', marginRight: 8},
+  ticketBalance: {fontSize: 18, color: '#fff', marginRight: 8},
   back: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -288,12 +300,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
-  poolInfo: {padding: 16, alignItems: 'center', marginTop: 20},
+  poolInfo: {padding: 16, alignItems: 'center'},
   disableBtn: {backgroundColor: '#DCDCDC'},
   tokenIcon: {width: 18, height: 18, marginRight: 4},
   textField: {
     fontSize: 16,
-    color: '#121212',
+    color: '#fff',
   },
 });
 

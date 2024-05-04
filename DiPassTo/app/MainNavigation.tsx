@@ -7,6 +7,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {
   CompositeScreenProps,
+  DarkTheme,
   NavigationContainer,
   NavigationContainerRef,
   NavigationState,
@@ -16,12 +17,14 @@ import {
   TransitionPresets,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {View} from 'react-native';
-import CreateWallet from './screens/createWallet';
 import {AppContext} from './context';
+import CreatePoolScreen from './screens/CreatePoolScreen';
 import Gacha from './screens/Gacha';
+import HomeScreen from './screens/HomeScreen';
+import CreateWallet from './screens/createWallet';
 export type MainTabsParamList = {
   Home: undefined;
+  PoolDetail: undefined;
   Create: undefined;
 };
 
@@ -51,25 +54,27 @@ function MainTabs() {
   return (
     <BottomTab.Navigator
       initialRouteName={'Home'}
-      screenOptions={({route}) => ({
+      screenOptions={({route, navigation}) => ({
         ...TransitionPresets.ModalSlideFromBottomIOS,
         headerTitleAlign: 'center',
         //headerShown: false,
         //headerShown: false,
         tabBarHideOnKeyboard: true,
+        tabBarActiveTintColor: '#7749fc',
       })}>
       <BottomTab.Screen
         name={'Home'}
-        component={() => <View />}
+        component={HomeScreen}
         options={{
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,
           tabBarHideOnKeyboard: true,
         }}
       />
+
       <BottomTab.Screen
         name={'Create'}
-        component={() => <View />}
+        component={CreatePoolScreen}
         options={{
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,
@@ -94,13 +99,22 @@ const MainNavigator = () => {
   const isLogin = currentAccount.isSaved;
   return (
     <NavigationContainer
+      theme={{
+        dark: true,
+        colors: {
+          ...DarkTheme.colors,
+          background: '#1a1a1a',
+          card: '#121212',
+          primary: '#6631FF',
+        },
+      }}
       ref={ref => {
         if (ref) {
           navigationRef.current = ref;
         }
       }}
       onStateChange={onStateChange}>
-      <RootStack.Navigator initialRouteName="Gacha">
+      <RootStack.Navigator initialRouteName="MainTabs">
         {isLogin ? (
           <>
             <RootStack.Screen

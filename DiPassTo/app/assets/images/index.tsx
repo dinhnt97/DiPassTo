@@ -1,4 +1,4 @@
-const wheelRollBackground = require('./wheel_roll_background.png');
+const wheelRollBackground = require('./wheel_roll_background_dark.jpeg');
 const wheelPointResult = require('./wheel_point_result.png');
 const rewardFrame1 = require('./reward_frame_1.png');
 const rewardFrame2 = require('./reward_frame_2.png');
@@ -9,8 +9,6 @@ const tokenIcon = require('./token_icon.png');
 const uploadSucess = require('./upload_success.png');
 
 export {
-  wheelPointResult,
-  wheelRollBackground,
   rewardFrame1,
   rewardFrame2,
   rewardFrame3,
@@ -18,4 +16,6 @@ export {
   rewardFrame5,
   tokenIcon,
   uploadSucess,
+  wheelPointResult,
+  wheelRollBackground,
 };

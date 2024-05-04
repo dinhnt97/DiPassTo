@@ -379,6 +379,8 @@ PODS:
   - React-jsinspector (0.72.13)
   - React-logger (0.72.13):
     - glog
+  - react-native-date-picker (5.0.2):
+    - React-Core
   - react-native-get-random-values (1.11.0):
     - React-Core
   - react-native-pager-view (6.3.1):
@@ -566,6 +568,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -657,6 +660,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
   react-native-pager-view:
@@ -748,6 +753,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 08ea8c7c359e5953776d9b51eb606a02b0999c61
   React-jsinspector: 525fb67d3402476e6d2796907892137e4a632e35
   React-logger: c3a0ff270a52e0051489f1f29a5de047ba7e8ca0
+  react-native-date-picker: 90687f1dbd374ff0265dca99d949998364c22fa9
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-pager-view: f2a27430f15fc7780ce9308c66d2b942e415e036
   react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
