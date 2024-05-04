@@ -99,7 +99,6 @@ contract Pool {
     }
 
     function roll(uint256 ticketId) public {
-        require(block.timestamp >= endTime, "Rolling is not started yet");
         require(ticketActive[ticketId] == false, "Ticket is already rolled");
         require(
             ticketIsExist(ticketId, address(msg.sender)),
