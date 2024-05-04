@@ -14,22 +14,26 @@ contract Wheel is Ownable {
     }
 
     function createPool(
-        uint256 ticketPrice,
-        uint256 maxPool,
+        uint256 amount,
+        uint256 ticketPriceRate,
         uint256 startTime,
         uint256 endTime,
         uint256[] memory rewardRates,
         uint256[] memory rewardValuePercents
-    ) public onlyOwner {
+    ) public {
         Pool pool = new Pool(
-            ticketPrice,
-            maxPool,
+            amount,
+            ticketPriceRate,
             startTime,
             endTime,
             rewardRates,
             rewardValuePercents,
-            token
+            token,
+            msg.sender
         );
+
+        token.transferFrom(msg.sender, address(pool), amount);
+
         pools.push(address(pool));
     }
 }
