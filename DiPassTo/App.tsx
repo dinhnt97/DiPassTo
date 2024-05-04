@@ -8,7 +8,8 @@
 import React, {useEffect, useState} from 'react';
 import MainNavigator from './app/MainNavigation';
 import {AppContext, initialAccount} from './app/context';
-
+import {LogBox} from 'react-native';
+LogBox.ignoreAllLogs();
 function App(): JSX.Element {
   const [account, setAccount] = useState(initialAccount);
   useEffect(() => {

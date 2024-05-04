@@ -388,6 +388,11 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.10.1):
     - React-Core
+  - react-native-video (5.2.1):
+    - React-Core
+    - react-native-video/Video (= 5.2.1)
+  - react-native-video/Video (5.2.1):
+    - React-Core
   - React-NativeModulesApple (0.72.13):
     - hermes-engine
     - React-callinvoker
@@ -500,6 +505,8 @@ PODS:
     - React-perflogger (= 0.72.13)
   - RNCClipboard (1.14.1):
     - React-Core
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.16.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -572,6 +579,7 @@ DEPENDENCIES:
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-video (from `../node_modules/react-native-video`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -590,6 +598,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -668,6 +677,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-video:
+    :path: "../node_modules/react-native-video"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-perflogger:
@@ -704,6 +715,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNI18n:
@@ -757,6 +770,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-pager-view: f2a27430f15fc7780ce9308c66d2b942e415e036
   react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
+  react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
   React-NativeModulesApple: 83cd035f454ac54f4f72ce7b01c34054fa6d60f8
   React-perflogger: de3900e86d8a4d896999b08e0b130ad8b83ebf11
   React-RCTActionSheet: 92433ffdf1b479aab3fe32250047f100a10ce59f
@@ -775,6 +789,7 @@ SPEC CHECKSUMS:
   React-utils: 46700f6d6cacc4288f897b94571bf92895678885
   ReactCommon: 71dc6b65f95ea81a83490115d7a5fc62378ecdcc
   RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 57b260d9fb69c5dd2bb3a7e4dadcf0d2d4a7027c
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   RNReanimated: e1ec9dbbd9540234d005557edcf324411b2a7124

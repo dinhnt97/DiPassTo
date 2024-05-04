@@ -4,20 +4,23 @@ import {Button} from 'react-native-elements';
 import {truncate} from '../../../../helpers/string';
 import {formatDate} from '../../../../helpers/time';
 import {IPoolInfo} from '../../../../types';
+import {useNavigation} from '@react-navigation/native';
 type Props = {
   data: IPoolInfo;
 };
 export default function PoolItem({data}: Props) {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   function handlePress() {
     // navigate();
-    // navigation.navigate();
+    navigation.navigate('Gacha');
   }
   return (
     <View style={styles.shadow}>
       <TouchableOpacity
         style={styles.container}
-        onPress={handlePress}
+        // onPress={() => {
+        //   navigation.navigate('Gacha');
+        // }}
         activeOpacity={0.9}>
         <View>
           <Image
@@ -45,6 +48,7 @@ export default function PoolItem({data}: Props) {
                 backgroundColor: '#6631FF',
               }}
               title="Detail"
+              onPress={handlePress}
             />
 
             {/* <View style={styles.poolInfoRight}>

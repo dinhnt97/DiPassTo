@@ -22,10 +22,11 @@ import CreatePoolScreen from './screens/CreatePoolScreen';
 import Gacha from './screens/Gacha';
 import HomeScreen from './screens/HomeScreen';
 import CreateWallet from './screens/createWallet';
+import MediaExplore from './screens/mediaExplore';
 export type MainTabsParamList = {
   Home: undefined;
-  PoolDetail: undefined;
   Create: undefined;
+  GameCenter: undefined;
 };
 
 export type RootStackParamList = {
@@ -64,7 +65,7 @@ function MainTabs() {
       })}>
       <BottomTab.Screen
         name={'Home'}
-        component={HomeScreen}
+        component={MediaExplore}
         options={{
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,
@@ -75,6 +76,15 @@ function MainTabs() {
       <BottomTab.Screen
         name={'Create'}
         component={CreatePoolScreen}
+        options={{
+          ...TransitionPresets.ModalSlideFromBottomIOS,
+          headerShown: false,
+        }}
+        //listeners={tabScreenListenterCheckAuth}
+      />
+      <BottomTab.Screen
+        name={'GameCenter'}
+        component={HomeScreen}
         options={{
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,

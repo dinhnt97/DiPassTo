@@ -25,7 +25,6 @@ export function CreateForm() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create Pool</Text>
       <View style={styles.formGroup}>
         <TextField
           value={createForm.title}
