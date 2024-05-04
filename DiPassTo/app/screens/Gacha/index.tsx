@@ -1,18 +1,300 @@
-import React, {FC} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {
+  FC,
+  Ref,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import SpinWheel from './components/SpinWheel';
+import Feather from 'react-native-vector-icons/Feather';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {tokenIcon, uploadSucess} from '../../assets/images';
+import {WIDTH_SCREEN} from './constants';
+import LottieView from 'lottie-react-native';
+import {finishRoll} from '../../assets/jsons';
 
-const Gacha: FC = () => {
+const poolInfo = {
+  totalPoolPrize: 1000,
+  dayEnd: '2025-10-10',
+  ticketPrice: 10,
+  mintedTickets: 100,
+  totalMintedTickets: 1000,
+  poolName: 'Pool 1',
+  image: 'https://via.placeholder.com/150',
+  ticketBalance: 100,
+  tokenBalance: 1000,
+};
+
+type IHistory = {id: string; address: string; reward: number};
+
+const dumpHistories: IHistory[] = [
+  {
+    id: '1',
+    address: '0x225...89d0',
+    reward: 300,
+  },
+  {
+    id: '2',
+    address: '0x235...e9d0',
+    reward: 500,
+  },
+  {
+    id: '3',
+    address: '0x225...89d5',
+    reward: 800,
+  },
+  {
+    id: '4',
+    address: '0x225...89de',
+    reward: 1200,
+  },
+];
+
+const Gacha: FC = ({}) => {
+  const navigation = useNavigation();
+  const goBack = () => {
+    navigation.goBack();
+  };
+  const {
+    totalPoolPrize,
+    dayEnd,
+    ticketPrice,
+    mintedTickets,
+    totalMintedTickets,
+    poolName,
+    image,
+    ticketBalance,
+    tokenBalance,
+  } = poolInfo;
+
+  const isDisableBuyTicket = tokenBalance === 0;
+  const isDisableSpin = ticketBalance === 0;
+
+  const [histories, setHistories] = useState<IHistory[]>([]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * dumpHistories.length);
+      setHistories(state =>
+        [dumpHistories[randomIndex], ...state]
+          .slice(0, 6)
+          .sort((a, b) => b.reward - a.reward),
+      );
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const toastRewardRef = useRef<{showReward: (message: string) => void}>(null);
+
+  const onShowReward = () => {
+    console.log('onShowReward');
+    toastRewardRef.current?.showReward('You got 1000 token');
+  };
   return (
-    <View style={styles.container}>
-      <View />
-      <SpinWheel onShowReward={() => {}} />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={[styles.rowCenter, styles.field, styles.spaceBetween]}>
+        <Pressable style={styles.back} onPress={goBack}>
+          <Feather name={'chevron-left'} size={28} />
+        </Pressable>
+        <View style={styles.rowCenter}>
+          <Text style={styles.ticketBalance}>
+            <FontAwesome name={'ticket'} size={18} /> {ticketBalance}
+          </Text>
+          <View style={styles.rowCenter}>
+            <Image source={tokenIcon} style={styles.tokenIcon} />
+            <Text style={styles.ticketBalance}>{tokenBalance}</Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.poolInfo}>
+        <View style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
+          <View style={[styles.rowCenter]}>
+            <Image style={styles.image} source={{uri: image}} />
+            <Text style={styles.name}>{poolName}</Text>
+          </View>
+          <Pressable
+            style={[
+              styles.buyTicketBtn,
+              isDisableBuyTicket && styles.disableBtn,
+            ]}>
+            <Text style={styles.buyTicketText}>Buy Ticket</Text>
+          </Pressable>
+        </View>
+        <View style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
+          <Text style={styles.textField}>Total pool: {totalPoolPrize}</Text>
+          <Text style={styles.textField}>Day end: {dayEnd}</Text>
+        </View>
+        <View style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
+          <Text style={styles.textField}>Ticket price: {ticketPrice}</Text>
+          <Text style={styles.textField}>
+            Tickets: {mintedTickets}/{totalMintedTickets}
+          </Text>
+        </View>
+      </View>
+      <SpinWheel onShowReward={onShowReward} />
+      <ToastReward ref={toastRewardRef} />
+      <View style={{padding: 16}}>
+        <Text style={styles.name}>History</Text>
+        {histories.map(history => {
+          return (
+            <View style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
+              <Text style={styles.textField}>{history.address}</Text>
+              <View style={styles.rowCenter}>
+                <Text style={[styles.textField, {marginRight: 8}]}>
+                  {history.reward}
+                </Text>
+                <Image source={tokenIcon} style={styles.tokenIcon} />
+              </View>
+            </View>
+          );
+        })}
+      </View>
+    </SafeAreaView>
   );
 };
 
+const ToastReward = forwardRef(
+  ({}, ref: Ref<{showReward: (message: string) => void}>) => {
+    const [showReward, setShowReward] = useState(false);
+    const [rewardMessage, setRewardMessage] = useState('');
+
+    const hideToast = () => {
+      setShowReward(false);
+    };
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        showReward: (message: string) => {
+          setShowReward(true);
+          setRewardMessage(message);
+        },
+      }),
+      [],
+    );
+    if (!showReward) {
+      return null;
+    }
+    return (
+      <Pressable
+        pointerEvents={'box-none'}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          alignItems: 'center',
+          zIndex: 0,
+        }}
+        onPress={hideToast}>
+        <View
+          style={{
+            width: WIDTH_SCREEN - 64,
+            backgroundColor: 'white',
+            alignItems: 'center',
+            borderRadius: 16,
+            position: 'absolute',
+            marginTop: 150,
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowRadius: 6,
+            shadowOpacity: 0.4,
+            elevation: 4,
+          }}>
+          <LottieView
+            style={{
+              width: WIDTH_SCREEN,
+              height: WIDTH_SCREEN,
+              position: 'absolute',
+              top: -100,
+            }}
+            source={finishRoll}
+            autoPlay={true}
+            loop={false}
+            speed={1}
+          />
+          <Image
+            style={{
+              width: 120,
+              height: 120,
+              marginBottom: 20,
+              marginTop: 16,
+            }}
+            source={uploadSucess}
+          />
+          <Text style={styles.textField}>Congratulation</Text>
+          <Text
+            style={[
+              {
+                textAlign: 'center',
+                width: WIDTH_SCREEN / 1.5,
+                marginBottom: 16,
+              },
+              styles.textField,
+            ]}>
+            {rewardMessage}
+          </Text>
+          <Pressable
+            style={{
+              width: '100%',
+              paddingVertical: 16,
+              borderTopWidth: 0.5,
+              borderColor: '#6631FF',
+              height: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={hideToast}>
+            <Text style={styles.textField}>Ok</Text>
+          </Pressable>
+        </View>
+      </Pressable>
+    );
+  },
+);
+
 const styles = StyleSheet.create({
-  container: {flex: 1},
+  container: {flex: 1, backgroundColor: 'white'},
+  name: {fontSize: 20, fontWeight: 'bold', color: '#121212', marginBottom: 8},
+  rowCenter: {flexDirection: 'row', alignItems: 'center'},
+  image: {width: 40, height: 40, marginRight: 16},
+  field: {marginBottom: 8, width: '100%'},
+  spaceBetween: {justifyContent: 'space-between'},
+  ticketBalance: {fontSize: 18, color: '#121212', marginRight: 8},
+  back: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 40,
+    height: 40,
+  },
+  buyTicketBtn: {
+    backgroundColor: '#6631FF',
+    padding: 10,
+    minWidth: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+  },
+  buyTicketText: {
+    fontSize: 16,
+    lineHeight: 18,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  poolInfo: {padding: 16, alignItems: 'center', marginTop: 20},
+  disableBtn: {backgroundColor: '#DCDCDC'},
+  tokenIcon: {width: 18, height: 18, marginRight: 4},
+  textField: {
+    fontSize: 16,
+    color: '#121212',
+  },
 });
 
 export default Gacha;

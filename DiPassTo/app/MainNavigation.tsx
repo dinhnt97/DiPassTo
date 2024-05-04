@@ -116,6 +116,7 @@ const MainNavigator = () => {
               component={Gacha}
               options={{
                 ...TransitionPresets.SlideFromRightIOS,
+                headerShown: false,
               }}
             />
           </>
