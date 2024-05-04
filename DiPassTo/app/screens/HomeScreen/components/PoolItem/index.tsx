@@ -1,14 +1,20 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Image, LayoutAnimation, StyleSheet, Text, View} from 'react-native';
+import {Avatar, Button} from 'react-native-elements';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import {truncate} from '../../../../helpers/string';
 import {formatDate} from '../../../../helpers/time';
+import {useBoolean} from '../../../../hooks';
 import {IPoolInfo} from '../../../../types';
-import {useNavigation} from '@react-navigation/native';
+
 type Props = {
   data: IPoolInfo;
 };
 export default function PoolItem({data}: Props) {
+  const {value: isFollow, toggle: toggleFollow} = useBoolean(
+    Math.random() > 0.5,
+  );
   const navigation = useNavigation();
   function handlePress() {
     // navigate();
@@ -16,12 +22,12 @@ export default function PoolItem({data}: Props) {
   }
   return (
     <View style={styles.shadow}>
-      <TouchableOpacity
+      <View
         style={styles.container}
         // onPress={() => {
         //   navigation.navigate('Gacha');
         // }}
-        activeOpacity={0.9}>
+      >
         <View>
           <Image
             style={styles.poolImage}
@@ -30,26 +36,65 @@ export default function PoolItem({data}: Props) {
             }}
           />
           <View style={styles.poolInfo}>
-            <Text numberOfLines={1} style={styles.txtName}>
-              {data.title}
-            </Text>
-            <Text numberOfLines={1} style={styles.txtDes}>
-              {formatDate(data.startTime)} - {formatDate(data.endTime)}
-            </Text>
-            <Text numberOfLines={1} style={styles.txtDes}>
-              Created By: {truncate(data.createdBy || '')}
-            </Text>
-            <Text numberOfLines={1} style={styles.txtDes}>
-              Total: {data.totalMinted || 0} / {data.totalTicket || 0}
-            </Text>
-            <Button
-              buttonStyle={{
-                marginTop: 4,
-                backgroundColor: '#6631FF',
-              }}
-              title="Detail"
-              onPress={handlePress}
-            />
+            <View style={styles.groupNameInfo}>
+              <Avatar
+                rounded
+                size={35}
+                source={{
+                  uri: 'https://ui-avatars.com/api/?name=John+Doe',
+                }}
+              />
+              <Text style={styles.txtName}>Lorem, ipsum dolor.</Text>
+              {!isFollow && (
+                <Button
+                  title={'+ Follow'}
+                  type="clear"
+                  buttonStyle={styles.btnFollow}
+                  titleStyle={styles.txtFollow}
+                  onPress={() => {
+                    LayoutAnimation.configureNext(
+                      LayoutAnimation.Presets.easeInEaseOut,
+                    );
+                    toggleFollow();
+                  }}
+                />
+              )}
+            </View>
+            <View style={styles.poolInfoRow}>
+              <Text numberOfLines={1} style={styles.txtTitle}>
+                {data.title}
+              </Text>
+              {/* <Text numberOfLines={1} style={[styles.txtDes, styles.body12]}>
+                {data.totalMinted || 0} / {data.totalTicket || 0}
+              </Text> */}
+            </View>
+            <View style={styles.groupCreatedBy}>
+              <Text style={styles.txtDes}>
+                Address: {truncate(data.createdBy || '')}
+              </Text>
+            </View>
+            <View style={styles.poolInfoRow}>
+              <Text
+                numberOfLines={1}
+                style={[styles.txtDes, styles.flex1, styles.body12]}>
+                <FeatherIcon name="calendar" size={14} />{' '}
+                {formatDate(data.startTime)} - {formatDate(data.endTime)}
+              </Text>
+              <Text numberOfLines={1} style={[styles.txtDes, styles.body12]}>
+                {data.totalMinted || 0} / {data.totalTicket || 0}
+              </Text>
+            </View>
+
+            {isFollow && (
+              <Button
+                buttonStyle={{
+                  marginTop: 4,
+                  backgroundColor: '#6631FF',
+                }}
+                title="Join"
+                onPress={handlePress}
+              />
+            )}
 
             {/* <View style={styles.poolInfoRight}>
             <View>
@@ -58,7 +103,7 @@ export default function PoolItem({data}: Props) {
           </View> */}
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -70,19 +115,24 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 16.0,
-
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
     elevation: 24,
   },
   container: {
     overflow: 'hidden',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    backgroundColor: '#121212',
+    borderRadius: 8,
+    backgroundColor: '#1a1a1a',
+    // 1a1a1a
   },
   poolImage: {
     aspectRatio: 16 / 9,
+  },
+  poolInfoRow: {
+    flexDirection: 'row',
+    rowGap: 8,
+    columnGap: 16,
+    alignItems: 'center',
   },
   poolInfo: {
     // flexDirection: 'row',
@@ -96,12 +146,43 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     color: '#DCDCDC',
   },
-  txtName: {
+  txtTitle: {
     color: '#fff',
     fontSize: 18,
     flex: 1,
   },
   txtDes: {
     color: '#DCDCDC',
+  },
+
+  groupCreatedBy: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    columnGap: 4,
+  },
+  body12: {
+    fontSize: 12,
+  },
+  groupNameInfo: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    columnGap: 8,
+  },
+  txtName: {
+    color: '#fff',
+    fontSize: 18,
+    flex: 1,
+  },
+  txtFollow: {
+    // color: 'rgba(136, 134, 246, 1)',
+    fontSize: 14,
+  },
+  btnFollow: {
+    flexShrink: 0,
+    padding: 0,
+    margin: 0,
+  },
+  flex1: {
+    flex: 1,
   },
 });
