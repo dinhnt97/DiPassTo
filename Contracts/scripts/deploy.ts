@@ -26,9 +26,34 @@ async function main() {
     [50, 30, 15, 5]
   );
 
-  // Get tx receipt
-  const receipt = await tx.wait();
-  console.log(receipt);
+  console.log("Pool deployed to:", await wheel.pools(0));
+
+  // Attach Pool
+  const Pool = await ethers.getContractFactory("Pool");
+  const pool = Pool.attach(await wheel.pools(0));
+
+  // Get Pool Info
+  console.log("Pool Info:", await pool.poolAmount());
+
+  // Approve token to pool
+  await token.approve(pool.address, "2000000000000000000000");
+
+  // Register to pool
+  await pool.register();
+  // Roll
+  await pool.roll(0);
+
+  // Register again
+  await pool.register();
+  // Roll
+  await pool.roll(1);
+  console.log("Pool Info:", await pool.poolAmount());
+
+  // Register again
+  await pool.register();
+  // Roll
+  await pool.roll(2);
+  console.log("Pool Info:", await pool.poolAmount());
 }
 
 // We recommend this pattern to be able to use async/await everywhere

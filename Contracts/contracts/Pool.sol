@@ -109,47 +109,48 @@ contract Pool {
             "You don't have a ticket"
         );
 
-        rolledTickets = rolledTickets + 1;
-        luckyRate = 1000 - (1000 - 5) ** rolledTickets;
+        unchecked {
+            rolledTickets = rolledTickets + 1;
+            luckyRate = 1000 - (1000 - 5) ** rolledTickets;
 
-        uint256 randomNumber = uint(
-            keccak256(
-                abi.encodePacked(block.timestamp, msg.sender, block.number)
-            )
-        ) % (100000 - 1);
+            uint256 randomNumber = uint(
+                keccak256(
+                    abi.encodePacked(block.timestamp, msg.sender, block.number)
+                )
+            ) % (100000 - 1);
 
-        if (randomNumber > luckyRate) {
-            ticketActive[ticketId] = true;
-            return INFINITY;
-        }
-
-        // Random
-
-        uint256 rewardRandom = uint(
-            keccak256(
-                abi.encodePacked(block.timestamp, msg.sender, block.number)
-            )
-        ) % (10000 - 1);
-
-        uint256 i = 0;
-        while (i < rewardRates.length) {
-            if (rewardRandom <= rewardRates[i] * 100) {
-                uint256 rewardValue = (poolAmount * rewardValuePercents[i]) /
-                    100;
-
-                // Transfer 95% of reward to user
-                token.transfer(msg.sender, (rewardValue * 95) / 100);
-
-                // Transfer 5% of reward to initUser
-                token.transfer(initUser, (rewardValue * 5) / 100);
-                break;
+            if (randomNumber > luckyRate) {
+                ticketActive[ticketId] = true;
+                return INFINITY;
             }
-            i++;
+
+            // Random
+
+            uint256 rewardRandom = uint(
+                keccak256(
+                    abi.encodePacked(block.timestamp, msg.sender, block.number)
+                )
+            ) % (10000 - 1);
+
+            uint256 i = 0;
+            while (i < rewardRates.length) {
+                if (rewardRandom <= rewardRates[i] * 100) {
+                    uint256 rewardValue = (poolAmount *
+                        rewardValuePercents[i]) / 100;
+
+                    // Transfer 95% of reward to user
+                    token.transfer(msg.sender, (rewardValue * 95) / 100);
+
+                    // Transfer 5% of reward to initUser
+                    token.transfer(initUser, (rewardValue * 5) / 100);
+                    break;
+                }
+                i++;
+            }
+
+            ticketActive[ticketId] = true;
+            return i;
         }
-
-        ticketActive[ticketId] = true;
-
-        return i;
     }
 
     function calculateLuckyRate() public {
