@@ -375,6 +375,11 @@ PODS:
   - React-jsinspector (0.72.13)
   - React-logger (0.72.13):
     - glog
+  - react-native-pager-view (6.3.1):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+  - react-native-safe-area-context (4.10.1):
+    - React-Core
   - React-NativeModulesApple (0.72.13):
     - hermes-engine
     - React-callinvoker
@@ -485,6 +490,19 @@ PODS:
     - React-jsi (= 0.72.13)
     - React-logger (= 0.72.13)
     - React-perflogger (= 0.72.13)
+  - RNGestureHandler (2.16.1):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+  - RNI18n (2.0.15):
+    - React
+  - RNReanimated (3.10.0):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+  - RNScreens (3.31.1):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+    - React-RCTImage
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -536,6 +554,8 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -553,6 +573,10 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
+  - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -615,6 +639,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-pager-view:
+    :path: "../node_modules/react-native-pager-view"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-perflogger:
@@ -649,6 +677,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -686,6 +722,8 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 08ea8c7c359e5953776d9b51eb606a02b0999c61
   React-jsinspector: 525fb67d3402476e6d2796907892137e4a632e35
   React-logger: c3a0ff270a52e0051489f1f29a5de047ba7e8ca0
+  react-native-pager-view: f2a27430f15fc7780ce9308c66d2b942e415e036
+  react-native-safe-area-context: dcab599c527c2d7de2d76507a523d20a0b83823d
   React-NativeModulesApple: 83cd035f454ac54f4f72ce7b01c34054fa6d60f8
   React-perflogger: de3900e86d8a4d896999b08e0b130ad8b83ebf11
   React-RCTActionSheet: 92433ffdf1b479aab3fe32250047f100a10ce59f
@@ -703,6 +741,10 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 8dd5ce1d291c417dd90cd651eccc70821c237a38
   React-utils: 46700f6d6cacc4288f897b94571bf92895678885
   ReactCommon: 71dc6b65f95ea81a83490115d7a5fc62378ecdcc
+  RNGestureHandler: 57b260d9fb69c5dd2bb3a7e4dadcf0d2d4a7027c
+  RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
+  RNReanimated: e1ec9dbbd9540234d005557edcf324411b2a7124
+  RNScreens: b8d370282cdeae9df85dd5eab20c88eb5181243b
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 6e6ec2d9e1eb4ecb97be4dc9bdd91f7cae2adf98
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

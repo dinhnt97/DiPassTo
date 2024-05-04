@@ -16,6 +16,7 @@ import {
   TransitionPresets,
   createStackNavigator,
 } from '@react-navigation/stack';
+import {View} from 'react-native';
 export type MainTabsParamList = {
   Home: undefined;
   Create: undefined;
@@ -56,7 +57,7 @@ function MainTabs() {
       })}>
       <BottomTab.Screen
         name={'Home'}
-        component={() => null}
+        component={() => <View />}
         options={{
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,
@@ -65,7 +66,7 @@ function MainTabs() {
       />
       <BottomTab.Screen
         name={'Create'}
-        component={() => null}
+        component={() => <View />}
         options={{
           ...TransitionPresets.ModalSlideFromBottomIOS,
           headerShown: false,
@@ -76,7 +77,7 @@ function MainTabs() {
   );
 }
 
-const MainNavigator = ({onReady}: {onReady: () => {}}) => {
+const MainNavigator = () => {
   const navigationRef =
     useRef<NavigationContainerRef<ReactNavigation.RootParamList>>();
   //handle deeplink here
@@ -93,7 +94,6 @@ const MainNavigator = ({onReady}: {onReady: () => {}}) => {
           navigationRef.current = ref;
         }
       }}
-      onReady={onReady}
       onStateChange={onStateChange}>
       <RootStack.Navigator>
         {isLogin ? (
@@ -108,7 +108,7 @@ const MainNavigator = ({onReady}: {onReady: () => {}}) => {
             />
             <RootStack.Screen
               name={'Gacha'}
-              component={() => null}
+              component={() => <View />}
               options={{
                 ...TransitionPresets.SlideFromRightIOS,
               }}
@@ -117,7 +117,7 @@ const MainNavigator = ({onReady}: {onReady: () => {}}) => {
         ) : (
           <RootStack.Screen
             name={'CreateWallet'}
-            component={() => null}
+            component={() => <View />}
             options={{
               ...TransitionPresets.SlideFromRightIOS,
             }}

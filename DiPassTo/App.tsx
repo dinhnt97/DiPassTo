@@ -9,6 +9,6 @@ import React from 'react';
 import MainNavigator from './app/MainNavigation';
 
 function App(): JSX.Element {
-  return <MainNavigator onReady={() => {}} />;
+  return <MainNavigator />;
 }
 export default App;
