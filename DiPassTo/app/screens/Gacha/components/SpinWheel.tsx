@@ -179,7 +179,7 @@ const SpinWheel = ({
       resetAllState();
       startAnimation(1, 1 / DEFAULT_SPEED);
       await new Promise(resolve => setTimeout(resolve, 3000));
-      resultRef.current = 'A';
+      resultRef.current = 'B';
     } catch (error: any) {
       isNeedToStopRef.current = true;
     }
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6631FF',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 4,
   },
   spinWheelBackground: {
     width: WIDTH_SCREEN / 15,

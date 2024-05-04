@@ -6,6 +6,7 @@ const rewardFrame3 = require('./reward_frame_3.png');
 const rewardFrame4 = require('./reward_frame_4.png');
 const rewardFrame5 = require('./reward_frame_5.png');
 const tokenIcon = require('./token_icon.png');
+const uploadSucess = require('./upload_success.png');
 
 export {
   wheelPointResult,
@@ -16,4 +17,5 @@ export {
   rewardFrame4,
   rewardFrame5,
   tokenIcon,
+  uploadSucess,
 };
