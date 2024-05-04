@@ -36,6 +36,9 @@ contract Pool {
 
     uint256 public constant INFINITY = 100;
 
+    event Register(address indexed user, uint256 ticketId);
+    event Roll(address indexed user, uint256 ticketId, uint256 rewardId);
+
     struct Reward {
         uint256 rewardRate;
         uint256 rewardValuePercent;
@@ -100,6 +103,8 @@ contract Pool {
         poolAmount = poolAmount + ticketPrice;
 
         count++;
+
+        emit Register(msg.sender, count);
     }
 
     function roll(uint256 ticketId) public returns (uint256) {
@@ -111,7 +116,7 @@ contract Pool {
 
         unchecked {
             rolledTickets = rolledTickets + 1;
-            luckyRate = 1000 - (1000 - 5) ** rolledTickets;
+            luckyRate = 1000 - (1000 - 100) ** rolledTickets;
 
             uint256 randomNumber = uint(
                 keccak256(
@@ -121,6 +126,7 @@ contract Pool {
 
             if (randomNumber > luckyRate) {
                 ticketActive[ticketId] = true;
+                emit Roll(msg.sender, ticketId, INFINITY);
                 return INFINITY;
             }
 
@@ -149,6 +155,7 @@ contract Pool {
             }
 
             ticketActive[ticketId] = true;
+            emit Roll(msg.sender, ticketId, i);
             return i;
         }
     }

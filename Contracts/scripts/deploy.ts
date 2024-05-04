@@ -17,7 +17,7 @@ async function main() {
   await token.approve(wheel.address, "2000000000000000000000");
 
   // Deploy Pool
-  const tx = await wheel.createPool(
+  let tx = await wheel.createPool(
     "2000000000000000000000",
     5,
     1714830032,
@@ -32,7 +32,7 @@ async function main() {
   const Pool = await ethers.getContractFactory("Pool");
   const pool = Pool.attach(await wheel.pools(0));
 
-  // Get Pool Info
+  // // Get Pool Info
   console.log("Pool Info:", await pool.poolAmount());
 
   // Approve token to pool
@@ -41,19 +41,22 @@ async function main() {
   // Register to pool
   await pool.register();
   // Roll
-  await pool.roll(0);
+  tx = await pool.roll(0);
+  await tx.wait();
+  console.log("tx", tx);
 
-  // Register again
-  await pool.register();
-  // Roll
-  await pool.roll(1);
-  console.log("Pool Info:", await pool.poolAmount());
+  // // Register again
+  // await pool.register();
+  // // Roll
+  // await pool.roll(1);
+  // console.log("Pool Info:", await pool.poolAmount());
 
-  // Register again
-  await pool.register();
-  // Roll
-  await pool.roll(2);
-  console.log("Pool Info:", await pool.poolAmount());
+  // // Register again
+  // await pool.register();
+  // // Roll
+  // let rollTx = await pool.roll(2);
+  // await rollTx.wait();
+  // console.log("Pool Info:", await pool.poolAmount());
 }
 
 // We recommend this pattern to be able to use async/await everywhere
