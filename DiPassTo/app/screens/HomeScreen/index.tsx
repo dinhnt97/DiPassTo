@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import PoolList from './components/PoolList';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import PoolList from './components/PoolList';
 
 export default function HomeScreen() {
   return (
@@ -9,9 +9,9 @@ export default function HomeScreen() {
       <View style={styles.headerContainer}>
         <Text style={styles.title}>Game Center</Text>
       </View>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <PoolList />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -19,8 +19,8 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     // paddingHorizontal: 20,
-    paddingVertical: 10,
-    // flex: 1,
+    // paddingVertical: 10,
+    flex: 1,
   },
   screenContainer: {
     flex: 1,
