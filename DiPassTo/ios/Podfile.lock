@@ -496,6 +496,8 @@ PODS:
     - React-jsi (= 0.72.13)
     - React-logger (= 0.72.13)
     - React-perflogger (= 0.72.13)
+  - RNCClipboard (1.14.1):
+    - React-Core
   - RNGestureHandler (2.16.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -584,6 +586,7 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNI18n (from `../node_modules/react-native-i18n`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -694,6 +697,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNI18n:
@@ -763,6 +768,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 8dd5ce1d291c417dd90cd651eccc70821c237a38
   React-utils: 46700f6d6cacc4288f897b94571bf92895678885
   ReactCommon: 71dc6b65f95ea81a83490115d7a5fc62378ecdcc
+  RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
   RNGestureHandler: 57b260d9fb69c5dd2bb3a7e4dadcf0d2d4a7027c
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   RNReanimated: e1ec9dbbd9540234d005557edcf324411b2a7124

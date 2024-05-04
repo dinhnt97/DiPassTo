@@ -4,13 +4,15 @@ import {
   Dimensions,
   Pressable,
   StyleSheet,
-  TextInput,
   View,
 } from 'react-native';
 import {createNewWeb3Account} from '../../components/walletCore';
 import {Text} from 'react-native';
 import {AppContext} from '../../context';
+import Feather from 'react-native-vector-icons/Feather';
+import Clipboard from '@react-native-clipboard/clipboard';
 
+const SEED_PHARE_WIDTH = (Dimensions.get('screen').width - 32 - 48) / 3;
 const CreateWallet: FC = () => {
   const [createWalletState, setCreateWalletState] = useState<
     'NON_CREATE' | 'CREATING' | 'CREATED'
@@ -19,14 +21,22 @@ const CreateWallet: FC = () => {
 
   const createEvmWallet = () => {
     if (createWalletState === 'CREATED') {
+      setCurrentAccount?.({
+        ...currentAccount,
+        isSaved: true,
+      });
       return;
     }
     setCreateWalletState('CREATING');
   };
   useEffect(() => {
+    if (currentAccount.nmenomic) {
+      setCreateWalletState('CREATED');
+    }
+  }, [currentAccount]);
+  useEffect(() => {
     if (createWalletState === 'CREATING') {
       const newWallet = createNewWeb3Account();
-      console.log(newWallet);
       setCurrentAccount?.({
         isSaved: false,
         name: 'Account',
@@ -38,10 +48,6 @@ const CreateWallet: FC = () => {
     }
   }, [createWalletState, setCurrentAccount]);
 
-  console.log(currentAccount.nmenomic);
-
-  const WIDTH_SCREEN = Dimensions.get('screen').width - 60;
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create Wallet</Text>
@@ -49,19 +55,24 @@ const CreateWallet: FC = () => {
         Create a new wallet to start using the app. This wallet will be used to
         interact with the blockchain.
       </Text>
-      <View style={{width: '100%', flexWrap: 'wrap', flexDirection: 'row'}}>
-        {currentAccount.nmenomic.split(' ').map((word, index) => (
-          <View
-            key={index}
-            style={{
-              paddingVertical: 8,
-              width: WIDTH_SCREEN / 3,
-              backgroundColor: '#B3B3B3',
-            }}>
-            <Text>{word}</Text>
-          </View>
-        ))}
-      </View>
+      {!!currentAccount.nmenomic && (
+        <View style={styles.seedPhareContainer}>
+          {currentAccount.nmenomic.split(' ').map((word, index) => (
+            <View key={index} style={styles.seedPhareItem}>
+              <Text>{word}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+      <Text
+        style={styles.textCopy}
+        onPress={() => {
+          Clipboard.setString('hello world');
+        }}>
+        <Feather name={'copy'} size={18} />
+        Copy seed phare
+      </Text>
+
       <Pressable
         onPress={createEvmWallet}
         disabled={createWalletState === 'CREATING'}
@@ -112,6 +123,22 @@ const styles = StyleSheet.create({
     color: '#B3B3B3',
     textAlign: 'center',
   },
+  seedPhareContainer: {
+    width: '100%',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 12,
+  },
+  seedPhareItem: {
+    paddingVertical: 8,
+    width: SEED_PHARE_WIDTH,
+    backgroundColor: '#DCDCDC',
+    margin: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+  },
+  textCopy: {color: '#6631FF', fontSize: 16, lineHeight: 20, marginTop: 12},
 });
 
 export default CreateWallet;
