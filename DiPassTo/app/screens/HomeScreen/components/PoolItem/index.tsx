@@ -62,7 +62,7 @@ export default function PoolItem({data}: Props) {
                 rounded
                 size={35}
                 source={{
-                  uri: `https://ui-avatars.com/api/?name=${randomName} `,
+                  uri: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRbIx8Tfdj8Myye_psedy7_bGTFUqDSf8ipoBjSAFD7bRJAbuY4Y7OMU5VWbjqcPtKwnJtIrVwcw-7HwLg',
                 }}
               />
               <Text style={styles.txtName}>{randomName}</Text>

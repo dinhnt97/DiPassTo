@@ -31,8 +31,14 @@ import GachaServices from '../services';
 
 const SpinWheel = ({
   onShowReward,
+  ticketBalance,
+  rollTicket,
+  poolPrize,
 }: {
-  onShowReward: (message: string) => void;
+  onShowReward: (message: string, reward: number) => void;
+  ticketBalance: number;
+  rollTicket: () => Promise<string>;
+  poolPrize: number;
 }) => {
   const [scrollPos] = useState(new Animated.Value(START_POSITION));
   const reelSymbols = SYMBOLS.repeat(20).split('');
@@ -46,11 +52,11 @@ const SpinWheel = ({
   const isRollWheel = useRef(false);
 
   const rewardsConfig = [
-    {id: 'reward_1', symbol: 'A', reward: 500},
-    {id: 'reward_2', symbol: 'B', reward: 100},
-    {id: 'reward_3', symbol: 'C', reward: 10},
-    {id: 'reward_4', symbol: 'D', reward: 1},
-    {id: 'reward_5', symbol: 'E', reward: 0.01},
+    {id: 'reward_1', symbol: 'A', reward: poolPrize * 0.5},
+    {id: 'reward_2', symbol: 'B', reward: poolPrize * 0.3},
+    {id: 'reward_3', symbol: 'C', reward: poolPrize * 0.15},
+    {id: 'reward_4', symbol: 'D', reward: poolPrize * 0.05},
+    {id: 'reward_5', symbol: 'E', reward: 0},
   ];
 
   const increaseSpeed = (currentSpeed = speedRef.current) => {
@@ -130,11 +136,20 @@ const SpinWheel = ({
             _.debounce(
               () =>
                 onShowReward(
-                  `You have received ${
-                    rewardsConfig.find(
-                      item => item.symbol === resultRef.current,
-                    )?.reward
-                  } CAP token`,
+                  `You have received ${Math.floor(
+                    Number(
+                      rewardsConfig.find(
+                        item => item.symbol === resultRef.current,
+                      )?.reward,
+                    ) || 0,
+                  )} DHPT token`,
+                  Math.floor(
+                    Number(
+                      rewardsConfig.find(
+                        item => item.symbol === resultRef.current,
+                      )?.reward,
+                    ) || 0,
+                  ),
                 ),
               300,
             )();
@@ -179,11 +194,7 @@ const SpinWheel = ({
     try {
       resetAllState();
       startAnimation(1, 1 / DEFAULT_SPEED);
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      const services = new GachaServices();
-      const res = await services.rollWheel();
-      console.log(res);
-      resultRef.current = 'B';
+      resultRef.current = await rollTicket();
     } catch (error: any) {
       isNeedToStopRef.current = true;
     }
@@ -218,7 +229,12 @@ const SpinWheel = ({
         </View>
         <Image style={styles.spinWheelBackground} source={wheelPointResult} />
       </ImageBackground>
-      <Pressable onPress={startRollWheel} style={styles.spinBtn}>
+      <Pressable
+        onPress={startRollWheel}
+        style={[
+          styles.spinBtn,
+          ticketBalance === 0 && {backgroundColor: '#DCDCDC'},
+        ]}>
         <Text style={styles.textSpin}>Spin Now</Text>
       </Pressable>
     </View>

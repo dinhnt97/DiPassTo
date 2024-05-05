@@ -61,7 +61,7 @@ const WheelItem = ({
         source={config?.backgroundImage}
         style={styles.backgroundItem}>
         <Image source={tokenIcon} style={styles.tokenIcon} />
-        <Text style={styles.reward}>{config?.reward}</Text>
+        <Text style={styles.reward}>{Math.floor(config?.reward)}</Text>
       </ImageBackground>
     </View>
   );

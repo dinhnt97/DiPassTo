@@ -6,10 +6,18 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -18,6 +26,7 @@ import {finishRoll} from '../../assets/jsons';
 import SpinWheel from './components/SpinWheel';
 import Services from './services';
 import {WIDTH_SCREEN} from './constants';
+import moment from 'moment';
 
 const poolInfo = {
   totalPoolPrize: 1000,
@@ -25,8 +34,9 @@ const poolInfo = {
   ticketPrice: 10,
   mintedTickets: 100,
   totalMintedTickets: 1000,
-  poolName: 'Pool 1',
-  image: 'https://img.freepik.com/premium-photo/gift-box-cyberpunk-style-dark-background_969965-42879.jpg',
+  poolName: 'Harry Jacob',
+  image:
+    'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRbIx8Tfdj8Myye_psedy7_bGTFUqDSf8ipoBjSAFD7bRJAbuY4Y7OMU5VWbjqcPtKwnJtIrVwcw-7HwLg',
   ticketBalance: 100,
   tokenBalance: 1000,
 };
@@ -56,54 +66,51 @@ const dumpHistories: IHistory[] = [
   },
 ];
 
+const dumpAddress = [
+  '0x225...89d0',
+  '0x235...e9d0',
+  '0x225...89d5',
+  '0x225...89de',
+];
+
 const Gacha: FC = ({}) => {
   const navigation = useNavigation();
   const goBack = () => {
     navigation.goBack();
   };
-  const {
-    totalPoolPrize,
-    dayEnd,
-    ticketPrice,
-    mintedTickets,
-    totalMintedTickets,
-    poolName,
-    image,
-    ticketBalance,
-    tokenBalance,
-  } = poolInfo;
+  const {dayEnd, poolName, image} = poolInfo;
 
-  const [balance, setBalance] = useState(0);
-  const [balanceTicket, setBalanceTicket] = useState(0);
+  const [balance, setBalance] = useState(8000);
+  const [ticketBalance, setTicketBalance] = useState(0);
+  const [totalPoolPrize, setTotalPoolPrize] = useState(10000);
+  const ticketPoolRatePrice = 5;
+  const ticketPrice = useMemo(() => {
+    return totalPoolPrize * (ticketPoolRatePrice / 100);
+  }, [totalPoolPrize]);
 
-  const services = new Services();
+  const [isBuyingTicket, setIsBuyingTicket] = useState(false);
 
-  const getBalance = async () => {
-    const servicesB: any = await services.getBalance();
-    const blanceTicket = await services.getPriceTicket();
-    setBalance(servicesB);
-    console.log(blanceTicket, '___balanceTicket');
-    setBalanceTicket(blanceTicket);
-  };
-
-  const isDisableBuyTicket = tokenBalance === 0;
-  const isDisableSpin = ticketBalance === 0;
+  const isDisableBuyTicket = balance === 0;
 
   const [histories, setHistories] = useState<IHistory[]>([]);
 
   useEffect(() => {
-    getBalance();
-  }, []);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * dumpHistories.length);
+      const address = dumpAddress[randomIndex];
+      const rewards = [0.5, 0.3, 0.15, 0.05];
+      const randomReward =
+        rewards[Math.floor(Math.random() * rewards.length)] * totalPoolPrize;
+      const dumpHistory = {
+        id: Math.random().toString(),
+        address,
+        reward: randomReward,
+      };
+      setTotalPoolPrize(state => state - randomReward + ticketPrice);
       setHistories(state =>
-        [dumpHistories[randomIndex], ...state]
-          .slice(0, 6)
-          .sort((a, b) => b.reward - a.reward),
+        [dumpHistory, ...state].slice(0, 6).sort((a, b) => b.reward - a.reward),
       );
-    }, 5000);
+    }, 50 * 1000);
     return () => {
       clearInterval(interval);
     };
@@ -111,18 +118,39 @@ const Gacha: FC = ({}) => {
 
   const toastRewardRef = useRef<{showReward: (message: string) => void}>(null);
 
-  const onShowReward = () => {
-    console.log('onShowReward');
-    toastRewardRef.current?.showReward('You got 1000 token');
+  const onShowReward = (reward: string, randomReward: number) => {
+    const randomIndex = Math.floor(Math.random() * dumpHistories.length);
+    const address = dumpAddress[randomIndex];
+    const dumpHistory = {
+      id: Math.random().toString(),
+      address,
+      reward: randomReward,
+    };
+    setHistories(state =>
+      [dumpHistory, ...state].slice(0, 6).sort((a, b) => b.reward - a.reward),
+    );
+    setBalance(state => state + randomReward);
+    toastRewardRef.current?.showReward(reward);
   };
 
   const onBuyTicket = async () => {
-    console.log('on buy');
-    const hash = await services.buyTicket();
-    console.log(hash, '___hashhash');
-    if (hash) {
-      toastRewardRef.current?.showReward('You got 1 ticket');
-    }
+    setIsBuyingTicket(true);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    setBalance(state => state - ticketPrice);
+    setTotalPoolPrize(state => state + ticketPrice);
+    setTicketBalance(state => state + 1);
+    toastRewardRef.current?.showReward('You got 1 ticket');
+    setIsBuyingTicket(false);
+  };
+
+  const rollTicket = async () => {
+    setTicketBalance(state => state - 1);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    const rewardIds = ['A', 'B', 'C', 'D'];
+    const randomRewardId =
+      rewardIds[Math.floor(Math.random() * rewardIds.length)];
+
+    return randomRewardId;
   };
 
   return (
@@ -133,11 +161,11 @@ const Gacha: FC = ({}) => {
         </Pressable>
         <View style={styles.rowCenter}>
           <Text style={styles.ticketBalance}>
-            <FontAwesome name={'ticket'} size={18} /> {balanceTicket?.length}
+            <FontAwesome name={'ticket'} size={18} /> {ticketBalance}
           </Text>
           <View style={styles.rowCenter}>
             <Image source={tokenIcon} style={styles.tokenIcon} />
-            <Text style={styles.ticketBalance}>{balance}</Text>
+            <Text style={styles.ticketBalance}>{Math.floor(balance)}</Text>
           </View>
         </View>
       </View>
@@ -150,24 +178,45 @@ const Gacha: FC = ({}) => {
           <Pressable
             style={[
               styles.buyTicketBtn,
-              isDisableBuyTicket && styles.disableBtn,
+              (isDisableBuyTicket || isBuyingTicket) && styles.disableBtn,
             ]}
+            disabled={isDisableBuyTicket || isBuyingTicket}
             onPress={onBuyTicket}>
-            <Text style={styles.buyTicketText}>Buy Ticket</Text>
+            {isBuyingTicket ? (
+              <ActivityIndicator size={18} />
+            ) : (
+              <Text style={styles.buyTicketText}>Buy Ticket</Text>
+            )}
           </Pressable>
         </View>
         <View style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
-          <Text style={styles.textField}>Total pool: {totalPoolPrize}</Text>
-          <Text style={styles.textField}>Day end: {dayEnd}</Text>
-        </View>
-        <View style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
-          <Text style={styles.textField}>Ticket price: {ticketPrice}</Text>
+          <View style={styles.rowCenter}>
+            <Text style={styles.textField}>
+              Total pool: {Math.floor(totalPoolPrize)}{' '}
+            </Text>
+            <Image source={tokenIcon} style={styles.tokenIcon} />
+          </View>
+
           <Text style={styles.textField}>
-            Tickets: {mintedTickets}/{totalMintedTickets}
+            Day end: {moment(dayEnd).format('DD/MM/YYYY')}
           </Text>
         </View>
+        <View style={[styles.rowCenter, styles.spaceBetween, styles.field]}>
+          <View style={styles.rowCenter}>
+            <Text style={styles.textField}>
+              Ticket price: {Math.floor(ticketPrice)}{' '}
+            </Text>
+            <Image source={tokenIcon} style={styles.tokenIcon} />
+          </View>
+          <View />
+        </View>
       </View>
-      <SpinWheel onShowReward={onShowReward} />
+      <SpinWheel
+        onShowReward={onShowReward}
+        ticketBalance={ticketBalance}
+        rollTicket={rollTicket}
+        poolPrize={totalPoolPrize}
+      />
       <ToastReward ref={toastRewardRef} />
       {histories.length > 0 && (
         <View style={{padding: 16}}>
@@ -179,7 +228,7 @@ const Gacha: FC = ({}) => {
                 <Text style={styles.textField}>{history.address}</Text>
                 <View style={styles.rowCenter}>
                   <Text style={[styles.textField, {marginRight: 8}]}>
-                    {history.reward}
+                    {Math.floor(history.reward)}
                   </Text>
                   <Image source={tokenIcon} style={styles.tokenIcon} />
                 </View>
