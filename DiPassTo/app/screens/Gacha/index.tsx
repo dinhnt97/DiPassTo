@@ -26,7 +26,7 @@ const poolInfo = {
   mintedTickets: 100,
   totalMintedTickets: 1000,
   poolName: 'Pool 1',
-  image: 'https://via.placeholder.com/150',
+  image: 'https://img.freepik.com/premium-photo/gift-box-cyberpunk-style-dark-background_969965-42879.jpg',
   ticketBalance: 100,
   tokenBalance: 1000,
 };
