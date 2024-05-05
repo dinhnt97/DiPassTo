@@ -1,5 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
+import moment from 'moment';
 import React, {
   FC,
   Ref,
@@ -24,9 +25,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {tokenIcon, uploadSucess} from '../../assets/images';
 import {finishRoll} from '../../assets/jsons';
 import SpinWheel from './components/SpinWheel';
-import Services from './services';
 import {WIDTH_SCREEN} from './constants';
-import moment from 'moment';
 
 const poolInfo = {
   totalPoolPrize: 1000,
@@ -130,6 +129,7 @@ const Gacha: FC = ({}) => {
       [dumpHistory, ...state].slice(0, 6).sort((a, b) => b.reward - a.reward),
     );
     setBalance(state => state + randomReward);
+    setTotalPoolPrize(state => state - randomReward);
     toastRewardRef.current?.showReward(reward);
   };
 
